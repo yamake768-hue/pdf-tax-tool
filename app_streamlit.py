@@ -1,4 +1,13 @@
 import streamlit as st
+import fitz
+import re
+import io
+import os
+from PIL import Image
+import base64
+import streamlit.components.v1 as components
+
+st.set_page_config(page_title="【税理士試験対応版】数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
 
 # --- パスワード認証機能 ---
 def check_password():
@@ -22,16 +31,7 @@ def check_password():
 if not check_password():
     st.stop()  # 認証が通るまで以下の処理を実行しない
 
-import streamlit as st
-import fitz
-import re
-import io
-import os
-from PIL import Image
-import base64
-import streamlit.components.v1 as components
-
-st.set_page_config(page_title="【税理士試験対応版】\n数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
+# --- ここから下のロジックは一切変更していません ---
 
 st.markdown("""
 <style>
@@ -395,9 +395,9 @@ if "shift_val" not in st.session_state:
 if "v_shift_val" not in st.session_state:
     st.session_state.v_shift_val = 0
 
-st.title("【税理士試験対応】\n数字の配置移動ツール")
+st.markdown("# 【税理士試験対応】<br>数字の配置移動ツール", unsafe_allow_html=True)
 st.markdown("**(iOSブラウザ対応版)**")
-st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。\n参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
+st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。  \n参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
 
 uploaded_file = st.file_uploader("1. PDFファイルをアップロード", type=["pdf"])
 
@@ -551,7 +551,7 @@ if st.session_state.pdf_bytes:
         st.session_state.temp_number_input = st.session_state.display_page
         st.session_state.apply_pages_input = str(st.session_state.display_page)
 
-    st.markdown("**ページ移動 （携帯・タブレットでは左右スワイプで移動できます）**")
+    st.markdown("**ページ移動 （プレビュー画面の左右スワイプでも移動できます）**")
     
     # 1. ページ指定パネル（手打ち＆増減）
     p_col1, p_col2, p_col3 = st.columns([1, 4, 1])
@@ -655,5 +655,4 @@ if st.session_state.pdf_bytes:
     </script>
     """
     components.html(swipe_js, height=0, width=0)
-
 
