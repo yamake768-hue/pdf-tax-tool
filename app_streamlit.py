@@ -397,7 +397,7 @@ if "v_shift_val" not in st.session_state:
 
 st.title("PDF抹消・左寄せツール")
 st.markdown("**(iOSブラウザ対応版)**")
-st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した画像型のPDFには対応していません。文字が重なったり透明なデータが浮き出たりする原因となります。必ずExcelや会計ソフトから直接出力したデジタルデータ（文字が選択できるPDF）をご使用ください。")
+st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。Eテキスト等のPDFデータ（文字が選択できるPDF）をご使用ください。")
 
 uploaded_file = st.file_uploader("1. PDFファイルをアップロード", type=["pdf"])
 
@@ -551,7 +551,7 @@ if st.session_state.pdf_bytes:
         st.session_state.temp_number_input = st.session_state.display_page
         st.session_state.apply_pages_input = str(st.session_state.display_page)
 
-    st.markdown("**ページ移動 （プレビュー画面の左右スワイプでも移動できます）**")
+    st.markdown("**ページ移動 （携帯・タブレットでは左右スワイプで移動できます）**")
     
     # 1. ページ指定パネル（手打ち＆増減）
     p_col1, p_col2, p_col3 = st.columns([1, 4, 1])
