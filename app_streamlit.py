@@ -7,7 +7,7 @@ from PIL import Image
 import base64
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="【税理士試験対応版】数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
+st.set_page_config(page_title="【税理士試験対応版】～数字の配置移動ツール～", layout="centered", initial_sidebar_state="expanded")
 
 # --- パスワード認証機能 ---
 def check_password():
@@ -395,9 +395,9 @@ if "shift_val" not in st.session_state:
 if "v_shift_val" not in st.session_state:
     st.session_state.v_shift_val = 0
 
-st.markdown("# 【税理士試験対応】<br>数字の配置移動ツール", unsafe_allow_html=True)
+st.markdown("# 【税理士試験対応】<br>～数字の配置移動ツール～", unsafe_allow_html=True)
 st.markdown("**(iOSブラウザ対応版)**")
-st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。  \n参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
+st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
 
 uploaded_file = st.file_uploader("1. PDFファイルをアップロード", type=["pdf"])
 
