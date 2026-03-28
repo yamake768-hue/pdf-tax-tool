@@ -397,7 +397,7 @@ if "v_shift_val" not in st.session_state:
 
 st.title("PDF抹消・左寄せツール")
 st.markdown("**(iOSブラウザ対応版)**")
-st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。Eテキスト等のPDFデータ（文字が選択できるPDF）をご使用ください。")
+st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
 
 uploaded_file = st.file_uploader("1. PDFファイルをアップロード", type=["pdf"])
 
