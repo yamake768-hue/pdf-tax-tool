@@ -31,7 +31,7 @@ from PIL import Image
 import base64
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="PDF抹消・左寄せツール", layout="centered", initial_sidebar_state="expanded")
+st.set_page_config(page_title="【税理士試験対応版】数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
 
 st.markdown("""
 <style>
