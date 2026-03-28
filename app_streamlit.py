@@ -36,8 +36,14 @@ st.set_page_config(page_title="PDF抹消・左寄せツール", layout="centered
 st.markdown("""
 <style>
 /* iOSスワイプバック誤作動防止（横スライダー操作時・画像スワイプ時） */
-div[data-baseweb="slider"], div[data-testid="stImage"] {
+body {
+    overscroll-behavior-x: none;
+}
+div[data-baseweb="slider"] {
     touch-action: pan-y !important;
+}
+div[data-testid="stImage"], div[data-testid="stImage"] img {
+    touch-action: auto !important; /* ピンチズームやダブルタップズームを許可 */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -609,6 +615,13 @@ if st.session_state.pdf_bytes:
                 touchstartX = -1; 
                 return;
             }
+            
+            // ズーム中(scale > 1.05)や、2本指以上(ピンチ等)の場合はページ送りを無効化（ズーム・パン操作を優先）
+            if ((window.visualViewport && window.visualViewport.scale > 1.05) || event.touches.length > 1) {
+                touchstartX = -1;
+                return;
+            }
+
             touchstartX = event.changedTouches[0].clientX;
             touchstartY = event.changedTouches[0].clientY;
         }, {capture: true, passive: true});
@@ -642,6 +655,5 @@ if st.session_state.pdf_bytes:
     </script>
     """
     components.html(swipe_js, height=0, width=0)
-
 
 
