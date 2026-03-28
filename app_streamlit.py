@@ -549,29 +549,31 @@ if st.session_state.pdf_bytes:
     
     # 1. ページ指定パネル（手打ち＆増減）
     p_col1, p_col2, p_col3 = st.columns([1, 4, 1])
-    p_col1.button("◀ 前へ", on_click=change_page, args=(-1,), key="p_minus")
+    p_col1.button("◀ 前へ", on_click=change_page, args=(-1,), key="p_minus", disabled=(total_pages <= 1))
     p_col2.number_input(
         "ページ番号直接入力", 
         min_value=1, 
-        max_value=total_pages, 
+        max_value=max(1, total_pages), 
         value=st.session_state.display_page,
         key="temp_number_input",
         on_change=update_page_from_number,
         label_visibility="collapsed",
-        step=1
+        step=1,
+        disabled=(total_pages <= 1)
     )
-    p_col3.button("次へ ▶", on_click=change_page, args=(1,), key="p_plus")
+    p_col3.button("次へ ▶", on_click=change_page, args=(1,), key="p_plus", disabled=(total_pages <= 1))
 
     # 2. 直感的操作用のスライダー枠（手をつないで連動させる）
-    st.slider(
-        "スライダーで一気に移動", 
-        min_value=1, 
-        max_value=total_pages, 
-        value=st.session_state.display_page,
-        key="temp_slider_input",
-        on_change=update_page_from_slider,
-        label_visibility="collapsed"
-    )
+    if total_pages > 1:
+        st.slider(
+            "スライダーで一気に移動", 
+            min_value=1, 
+            max_value=total_pages, 
+            value=st.session_state.display_page,
+            key="temp_slider_input",
+            on_change=update_page_from_slider,
+            label_visibility="collapsed"
+        )
     
     with st.spinner("プレビューを生成中..."):
         img = render_preview(
@@ -640,4 +642,6 @@ if st.session_state.pdf_bytes:
     </script>
     """
     components.html(swipe_js, height=0, width=0)
+
+
 
