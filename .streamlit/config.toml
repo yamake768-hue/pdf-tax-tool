@@ -3,3 +3,6 @@ hideTopBar = true
 
 [client]
 showErrorDetails = false
+
+[theme]
+primaryColor = "#1f77b4"
