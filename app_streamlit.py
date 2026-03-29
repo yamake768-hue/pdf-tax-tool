@@ -7,54 +7,9 @@ from PIL import Image
 import base64
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="【税理士試験対応版】数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
+st.set_page_config(page_title="【税理士試験対応版】~数字の配置移動ツール~", layout="centered", initial_sidebar_state="expanded")
 
-# --- UI全体非表示化ロジック (パスワード画面でも適用するためst.stop()より前に配置) ---
-st.markdown("""
-<style>
-/* Streamlitデフォルトの不要なUI（フッター・ヘッダー・右下の王冠マーク等）を非表示化 */
-header {visibility: hidden !important;}
-footer {visibility: hidden !important;}
-[data-testid="stToolbar"] {display: none !important;}
-[data-testid="stHeader"] {display: none !important;}
-[data-testid="stDecoration"] {display: none !important;}
-#MainMenu {visibility: hidden !important;}
-.stDeployButton {display: none !important;}
-div[class^="stDeployButton"] {display: none !important;}
-div[class*="viewerBadge"] {display: none !important;}
-[id^="viewerBadge"] {display: none !important;}
-a[href*="streamlit.io/cloud"] {display: none !important;}
-a[href*="streamlit.io"] {display: none !important;}
-</style>
-""", unsafe_allow_html=True)
 
-components.html(
-    """
-    <script>
-    // --- 親画面のDOMを監視して王冠マーク等の不要なUIを確実に消す ---
-    setInterval(() => {
-        try {
-            const parentDoc = window.parent.document;
-            parentDoc.querySelectorAll('[class*="stDeployButton"]').forEach(el => el.style.display = 'none');
-            parentDoc.querySelectorAll('[class*="viewerBadge"]').forEach(el => el.style.display = 'none');
-            parentDoc.querySelectorAll('[id^="viewerBadge"]').forEach(el => el.style.display = 'none');
-            parentDoc.querySelectorAll('a[href*="streamlit.io/cloud"]').forEach(el => {
-                el.style.display = 'none';
-                if(el.parentElement) el.parentElement.style.display = 'none';
-            });
-            parentDoc.querySelectorAll('a[href*="streamlit.io/deploy"]').forEach(el => {
-                el.style.display = 'none';
-                if(el.parentElement) el.parentElement.style.display = 'none';
-            });
-            parentDoc.querySelectorAll('footer').forEach(el => el.style.display = 'none');
-            parentDoc.querySelectorAll('header').forEach(el => el.style.display = 'none');
-        } catch (e) {}
-    }, 1000);
-    </script>
-    """,
-    height=0,
-    width=0
-)
 
 # --- パスワード認証機能 ---
 def check_password():
@@ -449,7 +404,7 @@ if "shift_val" not in st.session_state:
 if "v_shift_val" not in st.session_state:
     st.session_state.v_shift_val = 0
 
-st.markdown("# 【税理士試験対応】<br>数字の配置移動ツール", unsafe_allow_html=True)
+st.markdown("# 【税理士試験対応】<br>~数字の配置移動ツール~", unsafe_allow_html=True)
 st.markdown("**(iOSブラウザ対応版)**")
 st.warning("⚠️ **注意**: Googleドライブの「スキャン機能」やスマホのカメラ等で撮影した文字が画像として認識されているPDFには対応していません。  \n参考書や問題集などのPDFデータ（文字が選択できるPDF）をご使用ください。")
 
