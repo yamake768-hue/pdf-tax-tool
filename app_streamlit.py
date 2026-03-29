@@ -9,6 +9,53 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="【税理士試験対応版】数字の配置移動ツール", layout="centered", initial_sidebar_state="expanded")
 
+# --- UI全体非表示化ロジック (パスワード画面でも適用するためst.stop()より前に配置) ---
+st.markdown("""
+<style>
+/* Streamlitデフォルトの不要なUI（フッター・ヘッダー・右下の王冠マーク等）を非表示化 */
+header {visibility: hidden !important;}
+footer {visibility: hidden !important;}
+[data-testid="stToolbar"] {display: none !important;}
+[data-testid="stHeader"] {display: none !important;}
+[data-testid="stDecoration"] {display: none !important;}
+#MainMenu {visibility: hidden !important;}
+.stDeployButton {display: none !important;}
+div[class^="stDeployButton"] {display: none !important;}
+div[class*="viewerBadge"] {display: none !important;}
+[id^="viewerBadge"] {display: none !important;}
+a[href*="streamlit.io/cloud"] {display: none !important;}
+a[href*="streamlit.io"] {display: none !important;}
+</style>
+""", unsafe_allow_html=True)
+
+components.html(
+    """
+    <script>
+    // --- 親画面のDOMを監視して王冠マーク等の不要なUIを確実に消す ---
+    setInterval(() => {
+        try {
+            const parentDoc = window.parent.document;
+            parentDoc.querySelectorAll('[class*="stDeployButton"]').forEach(el => el.style.display = 'none');
+            parentDoc.querySelectorAll('[class*="viewerBadge"]').forEach(el => el.style.display = 'none');
+            parentDoc.querySelectorAll('[id^="viewerBadge"]').forEach(el => el.style.display = 'none');
+            parentDoc.querySelectorAll('a[href*="streamlit.io/cloud"]').forEach(el => {
+                el.style.display = 'none';
+                if(el.parentElement) el.parentElement.style.display = 'none';
+            });
+            parentDoc.querySelectorAll('a[href*="streamlit.io/deploy"]').forEach(el => {
+                el.style.display = 'none';
+                if(el.parentElement) el.parentElement.style.display = 'none';
+            });
+            parentDoc.querySelectorAll('footer').forEach(el => el.style.display = 'none');
+            parentDoc.querySelectorAll('header').forEach(el => el.style.display = 'none');
+        } catch (e) {}
+    }, 1000);
+    </script>
+    """,
+    height=0,
+    width=0
+)
+
 # --- パスワード認証機能 ---
 def check_password():
     # URLパラメータがあれば認証済みとして扱う（F5更新時対策）
@@ -52,22 +99,6 @@ div[data-baseweb="slider"] {
 div[data-testid="stImage"], div[data-testid="stImage"] img {
     touch-action: auto !important; /* ピンチズームやダブルタップズームを許可 */
 }
-
-/* Streamlitデフォルトの不要なUI（フッター・ヘッダー・右下の王冠マーク等）を非表示化 */
-header {visibility: hidden !important;}
-footer {visibility: hidden !important;}
-[data-testid="stToolbar"] {display: none !important;}
-[data-testid="stHeader"] {display: none !important;}
-[data-testid="stDecoration"] {display: none !important;}
-#MainMenu {visibility: hidden !important;}
-
-/* DeployボタンやCloud特有のバッジを非表示にする強めの設定 */
-.stDeployButton {display: none !important;}
-div[class^="stDeployButton"] {display: none !important;}
-div[class*="viewerBadge"] {display: none !important;}
-[id^="viewerBadge"] {display: none !important;}
-a[href*="streamlit.io/cloud"] {display: none !important;}
-a[href*="streamlit.io"] {display: none !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -624,29 +655,6 @@ if st.session_state.pdf_bytes:
         marker.id = 'swipe-handler-injected';
         marker.style.display = 'none';
         parentDoc.body.appendChild(marker);
-        
-        // --- 不要なUI（右下の王冠マークやDeployボタン、ヘッダー/フッター）をJSで強制的に非表示にする ---
-        setInterval(() => {
-            try {
-                // Deployボタンを非表示
-                parentDoc.querySelectorAll('[class*="stDeployButton"]').forEach(el => el.style.display = 'none');
-                // 王冠マーク(Viewer Badge)を非表示
-                parentDoc.querySelectorAll('[class*="viewerBadge"]').forEach(el => el.style.display = 'none');
-                parentDoc.querySelectorAll('[id^="viewerBadge"]').forEach(el => el.style.display = 'none');
-                // Streamlit Cloudへのリンクを含むコンテナごと非表示
-                parentDoc.querySelectorAll('a[href*="streamlit.io/cloud"]').forEach(el => {
-                    el.style.display = 'none';
-                    if(el.parentElement) el.parentElement.style.display = 'none';
-                });
-                parentDoc.querySelectorAll('a[href*="streamlit.io/deploy"]').forEach(el => {
-                    el.style.display = 'none';
-                    if(el.parentElement) el.parentElement.style.display = 'none';
-                });
-                // フッターとヘッダーを非表示
-                parentDoc.querySelectorAll('footer').forEach(el => el.style.display = 'none');
-                parentDoc.querySelectorAll('header').forEach(el => el.style.display = 'none');
-            } catch (e) {}
-        }, 1000);
         
         let touchstartX = 0;
         let touchstartY = 0;
